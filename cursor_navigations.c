@@ -28,3 +28,39 @@ void cursorMoveDown(TextEditor *editor)
         clampCursorPos(editor);
     }
 }
+
+void cursorMoveRight(TextEditor *editor)
+{
+    int len = strlen(editor->cursor->text);
+    if(editor->cursorPos < len)
+    {
+        editor->cursorPos++;
+    }
+    else if(editor->cursorPos == len)
+    {
+        //If not the end of the line
+        if(editor->cursor->next != NULL)
+        {
+            editor->cursor = editor->cursor->next;
+            editor->cursorLine++;
+            editor->cursorPos = 0;
+        }
+    }
+}
+
+void cursorMoveLeft(TextEditor *editor)
+{
+    if(editor->cursorPos > 0)
+    {
+        editor->cursorPos--;
+    }
+    else if(editor->cursorPos == 0)
+    {
+        if(editor->cursor->prev != NULL)
+        {
+            editor->cursor = editor->cursor->prev;
+            editor->cursorLine--;
+            editor->cursorPos = strlen(editor->cursor->text);
+        }
+    }
+}

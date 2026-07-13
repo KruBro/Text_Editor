@@ -3,8 +3,10 @@
 
 #include "text_editor.h"
 
-void moverCursorUP(TextEditor *editor);
-void moveCursroDwon(TextEditor *editor);
+void cursorMoveUp(TextEditor *editor);
+void cursorMoveDown(TextEditor *editor);
 void clampCursorPos(TextEditor *editor);
+void cursorMoveRight(TextEditor *editor);
+void cursorMoveLeft(TextEditor *editor);
 
 #endif

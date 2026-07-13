@@ -46,6 +46,16 @@ Status append_node(TextEditor *editor, Node *new)
     return SUCCESS;
 }
 
+Status addLine(TextEditor *editor, char *str)
+{
+    Node *new = create_node(str);
+    if(new == NULL)
+        return FAILURE;
+    if(append_node(editor, new) == FAILURE)
+        return FAILURE;
+    return SUCCESS;
+}
+
 void print_list(TextEditor *editor)
 {
     Node *temp = editor->head;
@@ -56,14 +66,4 @@ void print_list(TextEditor *editor)
         temp = temp->next;
         i++;
     }
-}
-
-Status addLine(TextEditor *editor, char *str)
-{
-    Node *new = create_node(str);
-    if(new == NULL)
-        return FAILURE;
-    if(append_node(editor, new) == FAILURE)
-        return FAILURE;
-    return SUCCESS;
 }
