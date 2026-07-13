@@ -1,5 +1,6 @@
 #include "text_editor.h"
 #include "cursor_navigations.h"
+#include "insert.h"
 
 
 int main()
@@ -19,16 +20,13 @@ int main()
     editor.cursor = editor.head;
 
     print_list(&editor);
+    editor.cursorPos = 5;
+    if(insertText(&editor, " Beautiful") == FAILURE)
+    {
+        printf("Insert_text Failed\n");
+        return 1;
+    }
 
-    printf("CursorPos -> %d, CursorLine -> %d\n", editor.cursorPos, editor.cursorLine);
-    cursorMoveLeft(&editor);
-    printf("CursorPos -> %d, CursorLine -> %d\n", editor.cursorPos, editor.cursorLine);
-    editor.cursorPos = 11;
-    printf("CursorPos -> %d, CursorLine -> %d\n", editor.cursorPos, editor.cursorLine);
-    cursorMoveRight(&editor);
-    printf("CursorPos -> %d, CursorLine -> %d\n", editor.cursorPos, editor.cursorLine);
-    cursorMoveLeft(&editor);
-    printf("CursorPos -> %d, CursorLine -> %d\n", editor.cursorPos, editor.cursorLine);
-
+    print_list(&editor);
     return 0;
 }
