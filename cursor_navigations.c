@@ -64,3 +64,23 @@ void cursorMoveLeft(TextEditor *editor)
         }
     }
 }
+
+Status jumpToLine(TextEditor *editor, int targetLine)
+{
+    while(targetLine != editor->cursorLine)
+    {
+        int old_cursorLine = editor->cursorLine;
+        if(targetLine < editor->cursorLine)
+            cursorMoveUp(editor);
+        else
+            cursorMoveDown(editor);
+
+        if(old_cursorLine == editor->cursorLine)
+            break;
+    }
+
+    if(targetLine == editor->cursorLine)
+        return SUCCESS;
+    else 
+        return FAILURE;
+}

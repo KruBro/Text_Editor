@@ -1,9 +1,8 @@
-#ifndef DELETE_H
-#define DELETE_H
+#ifndef DELETE_H 
+#define DELETE_H 
 
-#include "text_editor.h"
-#include "cursor_navigations.h"
+#include "main.h" 
 
-Status deleteCharacters(TextEditor *editor, int n);
+Status deleteCharacters(TextEditor *editor, int n); 
 
 #endif

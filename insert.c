@@ -2,6 +2,7 @@
 
 Status insertText(TextEditor *editor, const char *str_input)
 {
+    
     int old_len = strlen(editor->cursor->text);
     int insert_len = strlen(str_input);
     int new_len = old_len + insert_len;
@@ -22,5 +23,15 @@ Status insertText(TextEditor *editor, const char *str_input)
     strncpy((editor->cursor->text + editor->cursorPos), str_input, insert_len);
 
     editor->cursorPos  = editor->cursorPos + insert_len;
+        Action newAction;
+
+    newAction.operation = OP_INSERT;
+    newAction.text = malloc(sizeof(char) * insert_len + 1);
+    strcpy(newAction.text, str_input);
+    newAction.cursorLine = editor->cursorLine;
+    newAction.cursorPos = editor->cursorPos;
+
+    pushStack(&editor->undoStack, &newAction);
+    
     return SUCCESS;
 }

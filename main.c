@@ -1,27 +1,36 @@
-#include "text_editor.h"
-#include "cursor_navigations.h"
-#include "insert.h"
-#include "delete.h"
-#include "file_ops.h"
+#include "main.h"
 
 int main(int argc, char *argv[])
 {
-    if(argc < 2)
-        return 1;
+    // if(argc < 2)
+    //     return 1;
     
     TextEditor editor;
 
-    editor.head = NULL;
-    editor.tail = NULL;
+    if(initEditor(&editor) == FAILURE)
+    {
+        printf("[ERROR] : Editor Initiliazation Failed\n");
+        return 1;
+    }
 
-    editor.cursorLine = 1;
-    editor.cursorPos = 0;
-    
-    editor.cursor = editor.head;
+    printf("[SUCCESS] : Editor Initiliazation\n");
 
-    openFile(&editor, argv[1]);
+    addLine(&editor, "Hello World");
+    addLine(&editor, "Hello Worlddddd");
+    addLine(&editor, "Hello Worldsss");
 
     print_list(&editor);
-    saveFile(&editor);
+
+    insertText(&editor, " Beautiful");
+    print_list(&editor);
+    undoEdit(&editor);
+    print_list(&editor);
+    editor.cursorPos = 10;
+    deleteCharacters(&editor, 5);
+    print_list(&editor);
+    undoEdit(&editor);
+    print_list(&editor);
+    freeEditor(&editor);
+    freeStack(&editor.undoStack);
     return 0;
 }

@@ -1,6 +1,17 @@
 #include "text_editor.h"
 
 
+Status initEditor(TextEditor *editor)
+{
+    editor->head = NULL;
+    editor->tail = NULL;
+    editor->cursorLine = 1;
+    editor->cursorPos = 0;
+    editor->cursor = NULL;
+
+    return initDynamicArrayStack(&editor->undoStack);
+}
+
 Node* create_node(const char *str) {
     // 1. allocate memory for a new Node
     Node *new = malloc(sizeof(Node));
@@ -34,6 +45,7 @@ Status append_node(TextEditor *editor, Node *new)
     {
         editor->head = new;
         editor->tail = new;
+        editor->cursor = editor->head;
         return SUCCESS;
     }
 
@@ -66,4 +78,18 @@ void print_list(TextEditor *editor)
         temp = temp->next;
         i++;
     }
+}
+
+void freeEditor(TextEditor *editor)
+{
+    while(editor->head)
+    {
+        Node *temp = editor->head;
+        editor->head = editor->head->next;
+        free(temp->text);
+        free(temp);
+        temp = NULL;
+    }
+
+    editor->tail = NULL;
 }
