@@ -9,7 +9,13 @@ Status initEditor(TextEditor *editor)
     editor->cursorPos = 0;
     editor->cursor = NULL;
 
-    return initDynamicArrayStack(&editor->undoStack);
+    if(initDynamicArrayStack(&editor->undoStack) == FAILURE)
+        return FAILURE;
+    
+    if(initDynamicArrayStack(&editor->redoStack) == FAILURE)
+        return FAILURE;
+    
+    return SUCCESS;
 }
 
 Node* create_node(const char *str) {

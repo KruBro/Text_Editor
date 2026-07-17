@@ -26,7 +26,7 @@ Status insertText(TextEditor *editor, const char *str_input)
         Action newAction;
 
     newAction.operation = OP_INSERT;
-    newAction.text = malloc(sizeof(char) * insert_len + 1);
+    newAction.text = malloc(sizeof(char) * (insert_len + 1));
     strcpy(newAction.text, str_input);
     newAction.cursorLine = editor->cursorLine;
     newAction.cursorPos = editor->cursorPos;

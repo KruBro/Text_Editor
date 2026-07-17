@@ -38,7 +38,8 @@ typedef struct Node {
 
 // Represents the WHOLE document   like the train itself 
 typedef struct {     
-    DynamicArrayStack undoStack;     
+    DynamicArrayStack undoStack;   
+    DynamicArrayStack redoStack;  
     Node *head;    // pointer to the FIRST line node     
     Node *tail;    // pointer to the LAST line node     
     Node *cursor;  // pointer to whichever line the cursor is on     
@@ -50,7 +51,8 @@ typedef struct {
 #include "text_editor.h" 
 #include "cursor_navigations.h" 
 #include "insert.h" 
-#include "undo.h" 
+#include "undo.h"
+#include "redo.h" 
 #include "file_ops.h" 
 #include "delete.h" 
 #include "dynamic_stack_ops.h" 
