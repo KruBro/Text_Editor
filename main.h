@@ -55,5 +55,7 @@ typedef struct {
 #include "file_ops.h" 
 #include "delete.h" 
 #include "dynamic_stack_ops.h" 
+#include "search.h"
+#include "replace.h"
 
 #endif
