@@ -50,10 +50,9 @@ typedef struct {
 /* 2. INCLUDE SUB-MODULES AFTER TYPES ARE DEFINED */
 #include "text_editor.h" 
 #include "cursor_navigations.h" 
-#include "insert.h" 
+#include "insert_delete.h" 
 #include "redo_undo.h"
-#include "file_ops.h" 
-#include "delete.h" 
+#include "file_ops.h"
 #include "dynamic_stack_ops.h" 
 #include "search.h"
 #include "replace.h"

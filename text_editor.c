@@ -74,6 +74,11 @@ Status addLine(TextEditor *editor, char *str)
     return SUCCESS;
 }
 
+void getCurrentLineAndPos(TextEditor *editor)
+{
+    printf("Cursor Position : Line : %d, Column : %d\n", editor->cursorLine, editor->cursorPos);
+}
+
 void print_list(TextEditor *editor)
 {
     Node *temp = editor->head;
@@ -84,6 +89,8 @@ void print_list(TextEditor *editor)
         temp = temp->next;
         i++;
     }
+
+    getCurrentLineAndPos(editor);
 }
 
 void freeEditor(TextEditor *editor)

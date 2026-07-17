@@ -9,5 +9,6 @@ Status append_node(TextEditor *editor, Node *new);
 void print_list(TextEditor *editor); 
 Status addLine(TextEditor *editor, char *str); 
 void freeEditor(TextEditor *editor); 
+void getCurrentLineAndPos(TextEditor *editor);
 
 #endif
