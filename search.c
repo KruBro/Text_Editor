@@ -2,6 +2,9 @@
 
 Status findText(TextEditor *editor, const char *target, int *outPos, int *outLine)
 {
+    Node *backup_cursor = editor->cursor;
+    int backupCursorLine = editor->cursorLine;
+
     char *result = strstr((editor->cursor->text + editor->cursorPos), target);
     if(result != NULL)
     {
@@ -31,6 +34,9 @@ Status findText(TextEditor *editor, const char *target, int *outPos, int *outLin
         editor->cursorLine++;
     }
 
+    editor->cursor = backup_cursor;
+    editor->cursorLine = backupCursorLine;
+    
     return FAILURE;
 }
 

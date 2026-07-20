@@ -1,13 +1,13 @@
-#ifndef DYANMIC_STACK_OPS_H 
-#define DYANMIC_STACK_OPS_H 
+#ifndef DYNAMIC_STACK_OPS_H   /* FIX #8: was DYANMIC_STACK_OPS_H */
+#define DYNAMIC_STACK_OPS_H
 
-#include "main.h" 
+#include "main.h"
 
-#define CAPACITY 10 
+#define CAPACITY 10
 
-Status initDynamicArrayStack(DynamicArrayStack *stack); 
-Status pushStack(DynamicArrayStack *stack, Action *newAction); 
-Status popStack(DynamicArrayStack *stack, Action *returnAction); 
-void freeStack(DynamicArrayStack *stack); 
+Status initDynamicArrayStack(DynamicArrayStack *stack);
+Status pushStack(DynamicArrayStack *stack, Action *newAction);
+Status popStack(DynamicArrayStack *stack, Action *returnAction);
+void freeStack(DynamicArrayStack *stack);
 
 #endif

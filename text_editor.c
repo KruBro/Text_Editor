@@ -18,7 +18,8 @@ Status initEditor(TextEditor *editor)
     return SUCCESS;
 }
 
-Node* create_node(const char *str) {
+Node* create_node(const char *str)
+{
     // 1. allocate memory for a new Node
     Node *new = malloc(sizeof(Node));
     if(new == NULL)
@@ -89,8 +90,6 @@ void print_list(TextEditor *editor)
         temp = temp->next;
         i++;
     }
-
-    getCurrentLineAndPos(editor);
 }
 
 void freeEditor(TextEditor *editor)
@@ -101,8 +100,10 @@ void freeEditor(TextEditor *editor)
         editor->head = editor->head->next;
         free(temp->text);
         free(temp);
-        temp = NULL;
     }
 
     editor->tail = NULL;
+    editor->cursor = NULL;   /* FIX #5: was missing — left a dangling pointer */
+    editor->cursorLine = 0;
+    editor->cursorPos = 0;
 }

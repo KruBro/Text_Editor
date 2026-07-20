@@ -16,8 +16,8 @@ Status openFile(TextEditor *editor, char *file_name)
         return FAILURE;
     }
         
-    
-    char ch;
+    /* FIX #1: fgetc() returns int; using char misses EOF on unsigned-char platforms */
+    int ch;
 
     int count = 0;
     int capacity = MAX_BUFFER_SIZE;
@@ -33,7 +33,7 @@ Status openFile(TextEditor *editor, char *file_name)
         {
             if(count < capacity)
             {
-                buffer[count++] = ch;
+                buffer[count++] = (char)ch;
             }
             else
             {
@@ -48,12 +48,12 @@ Status openFile(TextEditor *editor, char *file_name)
                 }
                 
                 buffer = temp;
-                buffer[count++] = ch;
+                buffer[count++] = (char)ch;
             }
         }
     }
 
-    //Left over need to flushed
+    //Left over need to be flushed
     if(count > 0)
     {
         buffer[count] = '\0';
