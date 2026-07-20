@@ -55,10 +55,6 @@ typedef struct {
     int cursorPos;
 } TextEditor;
 
-/* FIX #10: Removed duplicate static char *menu[] that was here.
-   It was never used — printMenu() in main_utils.c has its own local copy.
-   Defining a static array in a header gives every translation unit its own
-   silent copy, wasting memory and causing confusion. */
 
 /* 2. INCLUDE SUB-MODULES AFTER TYPES ARE DEFINED */
 #include "text_editor.h"

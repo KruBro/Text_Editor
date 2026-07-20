@@ -8,6 +8,7 @@ typedef enum
     C_ADD_LINE,
     C_INSERT,
     C_DELETE,
+    C_DELETE_LINE,
     C_UNDO,
     C_REDO,
     C_SEARCH,

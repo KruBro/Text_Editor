@@ -65,6 +65,33 @@ void cursorMoveLeft(TextEditor *editor)
     }
 }
 
+void jumpToStartOfFile(TextEditor *editor)
+{
+    editor->cursor = editor->head;
+    editor->cursorLine = 1;
+    editor->cursorPos = 0;
+}
+
+void jumpToEndOfFile(TextEditor *editor)
+{
+    while(editor->cursor->next)
+    {
+        editor->cursor = editor->cursor->next;
+        editor->cursorLine++;
+    }
+    editor->cursorPos = strlen(editor->cursor->text);
+}
+
+void jumpToStartOfLine(TextEditor *editor)
+{
+    editor->cursorPos = 0;
+}
+
+void jumpToEndOfLine(TextEditor *editor)
+{
+    editor->cursorPos = strlen(editor->cursor->text);
+}
+
 Status jumpToLine(TextEditor *editor, int targetLine)
 {
     while(targetLine != editor->cursorLine)

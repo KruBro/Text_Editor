@@ -1,6 +1,5 @@
 #include "main_utils.h"
 
-/* FIX #7: Added int *argCount parameter so callers get a proper count */
 void process_full_command(char *full_line, char **command, char **args)
 {
     *command = strtok(full_line, " ");
@@ -16,6 +15,7 @@ TypesOfCommand processCommand(char *command)
     if (!strcmp(command, "addline"))   return C_ADD_LINE;
     if (!strcmp(command, "insert"))    return C_INSERT;
     if (!strcmp(command, "delete"))    return C_DELETE;
+    if (!strcmp(command, "deleteline"))    return C_DELETE_LINE;
     if (!strcmp(command, "undo"))      return C_UNDO;
     if (!strcmp(command, "redo"))      return C_REDO;
     if (!strcmp(command, "search"))    return C_SEARCH;
@@ -43,6 +43,7 @@ void printMenu(void)
         "addline <text>",
         "insert <text>",
         "delete",
+        "deleteline",
         "undo",
         "redo",
         "search <text>",
@@ -63,7 +64,7 @@ void printMenu(void)
 
     puts("\n========== MENU ==========");
 
-    for(int i = 0; i < 19; i++)
+    for(int i = 0; i < 20; i++)
         printf("%2d. %s\n", i + 1, menu[i]);
 
     printf("==========================\n");
@@ -118,7 +119,15 @@ void executeCommand(TextEditor *editor,
             deleteCharacters(editor, n);
             break;
         }
-
+        case C_DELETE_LINE:
+        {
+            int lineNumber = atoi(*args);
+            if(deleteLine(editor, lineNumber) == FAILURE)
+            {
+                printf("[INFO] : Out of Bound Line Number:%d\n", lineNumber);
+            }
+            break;
+        }
         case C_UNDO:
             undoEdit(editor);
             break;

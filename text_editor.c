@@ -75,6 +75,67 @@ Status addLine(TextEditor *editor, char *str)
     return SUCCESS;
 }
 
+Status deleteLine(TextEditor *editor, int lineNumber)
+{
+    if(editor->head == NULL)
+        return FAILURE;
+
+    if(jumpToLine(editor, lineNumber) == FAILURE)
+        return FAILURE;
+    
+    Node *target = editor->cursor;
+    
+    // Edge Case 1: It is the ONLY line in the editor
+    if (target->prev == NULL && target->next == NULL)
+    {
+        // Instead of deleting the struct and leaving a NULL head, 
+        // flush the text buffer to simulate a fresh empty line.
+        free(target->text);
+        target->text = malloc(sizeof(char));
+        if(target->text == NULL)
+            return FAILURE;
+            
+        target->text[0] = '\0';
+        editor->cursorPos = 0;
+        return SUCCESS;
+    }
+
+    // 1. Route the 'next' pointer of the previous node (or update head)
+    if (target->prev != NULL)
+        target->prev->next = target->next;
+    else
+        editor->head = target->next;
+
+    // 2. Route the 'prev' pointer of the next node (or update tail)
+    if (target->next != NULL)
+        target->next->prev = target->prev;
+    else
+        editor->tail = target->prev;
+
+    // 3. Safely reassign the cursor before freeing the target
+    if (target->next != NULL) 
+    {
+        // Shifting to the next line. 
+        // cursorLine remains the same mathematically because the bottom lines shift up.
+        editor->cursor = target->next;
+    } 
+    else 
+    {
+        // Target was the tail, so we must fall back to the previous line.
+        editor->cursor = target->prev;
+        editor->cursorLine--; 
+    }
+    
+    // Reset cursor position to the start of the newly active line
+    editor->cursorPos = 0; 
+
+    // 4. Safely free the memory
+    free(target->text);
+    free(target);
+    
+    return SUCCESS;
+}
+
 void getCurrentLineAndPos(TextEditor *editor)
 {
     printf("Cursor Position : Line : %d, Column : %d\n", editor->cursorLine, editor->cursorPos);
@@ -87,6 +148,17 @@ void print_list(TextEditor *editor)
     while(temp)
     {
         printf("Line %d: %s\n", i, temp->text);
+        
+        if (i == editor->cursorLine)
+        {
+            // Calculate exactly how many characters the prefix takes up
+            char prefix[32];
+            int prefix_len = snprintf(prefix, sizeof(prefix), "Line %d: ", i);
+            
+            // %*s dynamically pads spaces based on the prefix + cursor position
+            printf("%*s^\n", prefix_len + editor->cursorPos, "");
+        }
+        
         temp = temp->next;
         i++;
     }

@@ -16,7 +16,6 @@ Status openFile(TextEditor *editor, char *file_name)
         return FAILURE;
     }
         
-    /* FIX #1: fgetc() returns int; using char misses EOF on unsigned-char platforms */
     int ch;
 
     int count = 0;

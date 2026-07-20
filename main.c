@@ -42,7 +42,7 @@ int main()
     freeEditor(&editor);
     freeStack(&editor.undoStack);
     freeStack(&editor.redoStack);
-    freeClipBoardStack(cStack);  /* FIX #4: safe now that freeClipBoardStack also frees the struct */
+    freeClipBoardStack(cStack); 
 
     return 0;
 }

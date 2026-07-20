@@ -43,7 +43,6 @@ Status clipBoardPush(ClipboardStack *stack, char *text)
     return SUCCESS;
 }
 
-/* FIX #3: Added NULL guard on stack before dereferencing */
 char* clipBoardPeek(ClipboardStack *stack)
 {
     if(stack == NULL || stack->size == 0)
@@ -52,7 +51,6 @@ char* clipBoardPeek(ClipboardStack *stack)
     return stack->entries[stack->size - 1];
 }
 
-/* FIX #9: Renamed from clipBoardPeakAt -> clipBoardPeekAt */
 char *clipBoardPeekAt(ClipboardStack *stack, int index)
 {
     if(stack->size == 0)
@@ -64,7 +62,6 @@ char *clipBoardPeekAt(ClipboardStack *stack, int index)
     return stack->entries[index - 1];
 }
 
-/* FIX #4: Now calls free(stack) to release the heap struct from createStack */
 void freeClipBoardStack(ClipboardStack *stack)
 {
     if(stack == NULL)
@@ -78,7 +75,7 @@ void freeClipBoardStack(ClipboardStack *stack)
 
     free(stack->entries);
     stack->entries = NULL;
-    free(stack);          /* was missing — leaking the ClipboardStack struct itself */
+    free(stack);          
 }
 
 Status copy(TextEditor *editor, ClipboardStack *cStack, int n)
@@ -131,7 +128,7 @@ Status paste(TextEditor *editor, ClipboardStack *cStack)
 }
 
 /*
- * NEW: navigateToCopyPoint
+ * navigateToCopyPoint
  * -------------------------
  * Interactive mini-navigator that lets the user position the cursor
  * right before issuing copy or cut, without leaving the command loop.
@@ -151,7 +148,8 @@ Status navigateToCopyPoint(TextEditor *editor)
     char buf[256];
 
     printf("\n[NAVIGATOR] Move your cursor to the start of what you want to copy/cut.\n");
-    printf("  Commands: up | down | left | right | jumptoline <n> | find <text> | addspace | display | done | cancel\n");
+    printf("  Commands: up | down | left | right | jumptoline <n> | find <text> | addspace\n");
+    printf(" jumptoendoffile | jumptostartoffile | jumptostartofline | jumptoendofline | display | done | cancel\n");
 
     while(1)
     {
@@ -208,10 +206,26 @@ Status navigateToCopyPoint(TextEditor *editor)
         {
             print_list(editor);
         }
+        else if(strcmp(buf, "jumptoendoffile") == 0)
+        {
+            jumpToEndOfFile(editor);
+        }
+        else if(strcmp(buf, "jumptostartoffile") == 0)
+        {
+            jumpToStartOfFile(editor);
+        }
+        else if(strcmp(buf, "jumptostartofline") == 0)
+        {
+            jumpToStartOfLine(editor);
+        }
+        else if(strcmp(buf, "jumptoendofline") == 0)
+        {
+            jumpToEndOfLine(editor);
+        }
         else
         {
-            printf("[ERROR] : Unknown command. Try: up | down | left | right"
-                   " | jumptoline <n> | find <text> | done | cancel\n");
+            printf("[ERROR] : Unknown command. Try: up | down | left | right | jumptoline <n> | find <text> | addspace\n"
+                   "jumptoendoffile | jumptostartoffile | jumptostartofline | jumptoendofline | display | done | cancel\n");
         }
     }
 }
